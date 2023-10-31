@@ -15,62 +15,6 @@ int getPriority(char C)
 	return 0;
 }
 
-string infixToPostfix(string infix)
-{
-	infix = '(' + infix + ')';
-	int l = infix.size();
-	stack<char> char_stack;
-	string output;
-
-	for (int i = 0; i < l; i++) {
-
-		if (isalpha(infix[i]) || isdigit(infix[i]))
-			output += infix[i];
-
-
-		else if (infix[i] == '(')
-			char_stack.push('(');
-
-		else if (infix[i] == ')') {
-			while (char_stack.top() != '(') {
-				output += char_stack.top();
-				char_stack.pop();
-			}
-
-			char_stack.pop();
-		}
-
-		else {
-			if (isOperator(char_stack.top())) {
-				if (infix[i] == '^') {
-					while (
-						getPriority(infix[i])
-						<= getPriority(char_stack.top())) {
-						output += char_stack.top();
-						char_stack.pop();
-					}
-				}
-				else {
-					while (
-						getPriority(infix[i])
-						< getPriority(char_stack.top())) {
-						output += char_stack.top();
-						char_stack.pop();
-					}
-				}
-
-				char_stack.push(infix[i]);
-			}
-		}
-	}
-	while (!char_stack.empty()) {
-		output += char_stack.top();
-		char_stack.pop();
-	}
-	return output;
-}
-
-
 string infixToPrefix(string infix)
 {
 
